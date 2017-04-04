@@ -1,0 +1,55 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf810
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 README:\
+This is my work for a school project. It is NOT intended to be fully functioning and if you steal this code for something YOUR professor assigned YOU you will probably fail.\
+\
+Student Socket implementation:\
+\
+Server side implementation:\
+event: accept is called. listen()\
+	register listening port\
+	listen for SYN from client\
+event: receive SYN\
+	state: SYN_RCVD\
+	send: synack (SYN+ACK)\
+event close() is called\
+	state: FIN_WAIT_1\
+	send: FIN\
+A\
+event: receive FIN\
+	state: CLOSING\
+	send: ACK\
+event: receive ACK\
+	state: TIME_WAIT\
+	wait 30 secs, then close\
+B\
+event: receive ACK\
+	state: FIN_WAIT_2\
+receive FIN\
+	send: ACK\
+	state: TIME_WAIT\
+	wait 30 secs, then close\
+\
+Client side implementation:\
+event: connect() called\
+	registerConnection()\
+	send SYN\
+	state: SYN_SENT\
+event: receive SYN+ACK\
+	send: ACK\
+	state: ESTABLISHED\
+event: recv FIN\
+	send ACK\
+	state: CLOSE_WAIT\
+event: close()\
+	send FIN\
+	state: LAST_ACK\
+event: recv ACK\
+	state: TIME_WAIT\
+	wait 30 sec, then close\
+	}
